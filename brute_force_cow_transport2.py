@@ -30,24 +30,33 @@ def brute_force_cow_transport(cows, limit=10):
 
     for partition in get_partitions(cowsList):
         pl = len(partition)
+        partition_weight = []
+        # print('Partition', partition)
         for i in range(pl):
+
             pairs = [t for t in partition[i]]
+            # print('Pairs', pairs)
             names = [n for n, _ in pairs]
             partition_weight = sum(w for _, w in pairs)
-            if partition_weight < limit and len(pairs) > 1:
-                if names not in trip:
-                    trip += names
-                    print(names)
-                    print(names, partition_weight, bool(partition_weight >= limit))
-            # for j in pairs:
-            #     # print(j[0], ':', j[1])
-            #     if total + j[1] < limit:
-            #         trip += [j[0]]
-            #         break
+            # print(names, partition_weight, bool(partition_weight >= limit))
+            print('Part.', i)
+            if partition_weight < limit:
+                trip.append(names)
+                print(partition_weight, 'is below the limit', limit)
+
             else:
-                trips += [trip]
-                total = 0
-                trip = []
+                print('Overweight:', bool(partition_weight >= limit))
+            #for j in pairs:
+            #    print(j[0], ':', j[1])
+            #      if total + j[1] < limit:
+            #          trip += [j[0]]
+            #          break
+            # else:
+            #     trips += trip
+            #     total = 0
+            #     trip += [trip]
+            # else:
+            #     print('Overweight', bool(partition_weight > limit))
 
     return trips if not trip else trips + [trip]
 
