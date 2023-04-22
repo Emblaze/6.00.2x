@@ -1,73 +1,41 @@
 #!/usr/bin/env python3
-import ps1_partition
 
+# Enter your code for the Brute Force Cow Transport here
+from ps1_partition import get_partitions
 
-def brute_force_cow_transport(cows, limit=10):
+def brute_force_cow_transport(cows,limit=10):
     """
-    brute force algorithm to find the minimum number of trips needed to take
-    all the cows across the universe in the function brute_force_cow_transport.
-    The function returns a list of lists, where each inner list represents
-    a trip and contains the names of cows taken on that trip.
+    Finds the allocation of cows that minimizes the number of spaceship trips
+    via brute force.  The brute force algorithm should follow the following method:
 
-    1. Enumerate all possible ways that the cows can be divided into separate
-     trips
-    2. Select the allocation that minimizes the number of trips without making
-     any trip that does not obey the weight limitation
+    1. Enumerate all possible ways that the cows can be divided into separate trips
+    2. Select the allocation that minimizes the number of trips without making any trip
+        that does not obey the weight limitation
 
     Does not mutate the given dictionary of cows.
 
-    Input: cows, a dictionary of names (string), weight (int) pairs
+    Parameters:
+    cows - a dictionary of name (string), weight (int) pairs
+    limit - weight limit of the spaceship (an int)
 
-    Parameter: limit, a weight limit of the spaceship (int)
-
-    Returns a list of lists, with each inner list containing the names of cows
+    Returns:
+    A list of lists, with each inner list containing the names of cows
     transported on a particular trip and the overall list containing all the
-    trips?
+    trips
     """
-    # Let's convert the input dictionary into a list of tuples
-    cowsList = [(names, weights) for names, weights in cows.items()]
-    validTrips = []
-
-    # Ad-hoc subpart weight function
-    def weight(subpartition):
-        names = []
+    def weight(sub):
         sum = 0
+        for e in sub:
+            sum += cows[e]
+        return sum
 
-        for (name, weight) in subpartition:
-            names.append(name)
-            sum += weight
+    valid_trips = []
+    for part in list(get_partitions(cows)):
+        if all(weight(sub) <= limit for sub in part):
+            valid_trips.append(part)
+    return min(valid_trips, key = len)
 
-        return (names, sum)
-    # Using the provided helper function to iterate over all partitions of the
-    # tuples list
-    for partition in ps1_partition.get_partitions(cowsList):
-        # Initialising list of names for each subpartitions
-        trip = []
-        # print('Partition:', partition, 'length =', len(partition))
-        # Iterating over all subpartitions
-        for subPart in partition:
-            (names, sum) = weight(subPart)
-            #print('Names:', names, 'sub. weight =', sum, end='. ')
-            if all(sum <= limit for subPart in partition):
-            #print(subPart)
-                trip.append(names)
-        #else:
-            # print('Too heavy! Exiting', end="\n\n")
-                #break
-            # print('Out of subPart loop', print(trip))
-        if trip not in validTrips:
-            validTrips.append(trip)
-        else:
-            print(trip, 'already in', validTrips, bool(trip in validTrips))
-        # for p in validTrips:
-        #     if len(best) == 0:
-        #         best = p
-        #     elif len(p) < len(best):
-        #         best = p
-        #     # print('Best:', best, 'Validtrips:', validTrips)
-    return min(validTrips)
-
-
+# Tests
 # cows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
 # print(brute_force_cow_transport(cows, 10))
 # cows = {'MooMoo': 50, 'Lotus': 40, 'Horns': 25, 'Miss Bella': 25, 'Boo': 20, 'Milkshake': 40}

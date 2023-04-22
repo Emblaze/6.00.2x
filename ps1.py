@@ -22,9 +22,7 @@ def load_cows(filename):
     Returns:
     a dictionary of cow name (string), weight (int) pairs
     """
-
     cow_dict = dict()
-
     f = open(filename, 'r')
 
     for line in f:
@@ -57,7 +55,22 @@ def greedy_cow_transport(cows, limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+    cows = sorted([t for t in cows.items()], key=lambda x: x[1], reverse=True)
+    trips = []
+    total = 0
+    trip = []
+    while cows:
+        for i in range(len(cows)):
+            if total + cows[i][1] <= limit:
+                total += cows[i][1]
+                trip += [cows[i][0]]
+                cows.pop(i)
+                break
+        else:
+            trips += [trip]
+            total = 0
+            trip = []
+    return trips if not trip else trips + [trip]
 
 
 # Problem 2
@@ -84,10 +97,22 @@ def brute_force_cow_transport(cows, limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+        # Ad-hoc subpart weight function
+    def weight(sub):
+        sum = 0
+        for e in sub:
+            sum += cows[e]
+        return sum
+
+    valid_trips = []
+    for part in list(get_partitions(cows)):
+        if all(weight(sub) <= limit for sub in part):
+            valid_trips.append(part)
+    return min(valid_trips, key = len)
 
 
 # Problem 3
+
 def compare_cow_transport_algorithms():
     """
     Using the data from ps1_cow_data.txt and the specified weight limit, run
@@ -102,7 +127,17 @@ def compare_cow_transport_algorithms():
     Does not return anything.
     """
     # TODO: Your code here
-    pass
+    start_load_cows = time.time()
+    end_load_cows = time.time()
+    print('Cows dict generated from file in:', "%f" % (end_load_cows - start_load_cows))
+    start_greedy = time.time()
+    print(greedy_cow_transport(cows))
+    end_greedy = time.time()
+    print('greedy took:', "%f" % (end_greedy - start_greedy))
+    start_brute_force = time.time()
+    print(brute_force_cow_transport(cows))
+    end_brute_force = time.time()
+    print('brute_force took:', "%f" % (end_brute_force - start_brute_force))
 
 
 """
