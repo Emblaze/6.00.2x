@@ -1,10 +1,10 @@
-#!/usr/local/bin/python3
 # 6.00.2x Problem Set 2: Simulating robots
+
 import math
 import random
 
 import ps2_visualize
-import pylab
+import matplotlib.pyplot as pylab
 
 ##################
 ## Comment/uncomment the relevant lines, depending on which version of Python you have
@@ -12,7 +12,7 @@ import pylab
 
 # For Python 3.11:
 from ps2_verify_movement311 import testRobotMovement
-# If you get a "Bad magic number" ImportError, you are not using Python 3.6
+# If you get a "Bad magic number" ImportError, you are not using Python 3.11
 
 # === Provided class Position
 class Position(object):
@@ -80,7 +80,6 @@ class RectangularRoom(object):
         self.width = width
         self.height = height
 
-
     def cleanTileAtPosition(self, pos):
         """
         Mark the tile under the position POS as cleaned.
@@ -89,7 +88,7 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        self.pos = pos
+        raise NotImplementedError
 
     def isTileCleaned(self, m, n):
         """
@@ -101,9 +100,6 @@ class RectangularRoom(object):
         n: an integer
         returns: True if (m, n) is cleaned, False otherwise
         """
-        self.m = m
-        self.n = n
-
         raise NotImplementedError
 
     def getNumTiles(self):
@@ -112,7 +108,7 @@ class RectangularRoom(object):
 
         returns: an integer
         """
-        raise NotImplementedError
+        return self.width * self.height
 
     def getNumCleanedTiles(self):
         """
@@ -137,9 +133,7 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if pos is in the room, False otherwise.
         """
-        if pos not in self.pos:
-            raise ValueError('Pos not in field')
-        return self.pos[pos]
+        raise NotImplementedError
 
 
 # === Problem 2
@@ -162,8 +156,6 @@ class Robot(object):
         room:  a RectangularRoom object.
         speed: a float (speed > 0)
         """
-        self.room = RectangularRoom(width = 5, height = 5)
-        self.speed = random()
         raise NotImplementedError
 
     def getRobotPosition(self):
@@ -228,11 +220,8 @@ class StandardRobot(Robot):
         raise NotImplementedError
 
 
-# For debugging purposes only.Remember to comment out prior to submitting.
-random.seed(0)
-
 # Uncomment this line to see your implementation of StandardRobot in action!
-testRobotMovement(StandardRobot, RectangularRoom)
+##testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
