@@ -81,11 +81,7 @@ class RectangularRoom(object):
         self.height = height
         # Initialising a default tiles dict, with
         # tuples representing the origin coordinates of each tile as keys and a default value for cleaned set to False
-        self.tiles = {}
-        # To refactor as a dict comprehension?
-        for x in range(width):
-            for y in range(height):
-	                self.tiles[(x,y)] = bool()
+        self.tiles = {(x,y): bool() for x in range(width) for y in range(height)}
 
     def cleanTileAtPosition(self, pos):
         """
