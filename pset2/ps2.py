@@ -91,7 +91,7 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        raise NotImplementedError
+        self.tiles[pos] = True
 
     def isTileCleaned(self, m, n):
         """
@@ -103,7 +103,7 @@ class RectangularRoom(object):
         n: an integer
         returns: True if (m, n) is cleaned, False otherwise
         """
-        raise NotImplementedError
+        return self.tiles[(m,n)] == True
 
     def getNumTiles(self):
         """
@@ -119,7 +119,7 @@ class RectangularRoom(object):
 
         returns: an integer
         """
-        raise NotImplementedError
+        return sum(1 for value in self.tiles.values() if value == True)
 
     def getRandomPosition(self):
         """
@@ -141,7 +141,16 @@ class RectangularRoom(object):
 # Build-Debug
 room = RectangularRoom(2,3)
 print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
+print("Before", room.getNumCleanedTiles())
+print(room.isTileCleaned(0,0))
+room.cleanTileAtPosition((0,0))
+print("After", room.getNumCleanedTiles())
+print(room.isTileCleaned(0,0))
+print(room.tiles)
 pos = Position(2.5, 3.14)
+
+
+
 #(x,y) = pos
 print(str(pos), int(pos.getX()), int(pos.getY()))
 
