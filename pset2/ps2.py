@@ -79,6 +79,13 @@ class RectangularRoom(object):
         """
         self.width = width
         self.height = height
+        # Initialising a default tiles dict, with
+        # tuples representing the origin coordinates of each tile as keys and a default value for cleaned set to False
+        self.tiles = {}
+        # To refactor as a dict comprehension?
+        for x in range(width):
+            for y in range(height):
+	                self.tiles[(x,y)] = bool()
 
     def cleanTileAtPosition(self, pos):
         """
@@ -135,6 +142,12 @@ class RectangularRoom(object):
         """
         raise NotImplementedError
 
+# Build-Debug
+room = RectangularRoom(2,3)
+print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
+pos = Position(2.5, 3.14)
+#(x,y) = pos
+print(str(pos), int(pos.getX()), int(pos.getY()))
 
 # === Problem 2
 class Robot(object):
