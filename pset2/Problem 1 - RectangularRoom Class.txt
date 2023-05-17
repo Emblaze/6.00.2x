@@ -27,3 +27,6 @@ Complete the RectangularRoom class by implementing its methods in ps2.py.
 Although this problem has many parts, it should not take long once you have chosen how you wish to represent your data. For reasonable representations, a majority of the methods will require only a couple of lines of code.
 
 Hint: During debugging, you might want to use random.seed(0) so that your results are reproducible.
+
+random.random() * width (or height)
+random.uniform(a, b)
