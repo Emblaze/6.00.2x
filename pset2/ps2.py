@@ -143,18 +143,20 @@ class RectangularRoom(object):
 
 # Build-Debug
 room = RectangularRoom(2,3)
-print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
-print("Before", room.getNumCleanedTiles())
-print(room.isTileCleaned(0,0))
-room.cleanTileAtPosition(Position(0,0))
-print("After", room.getNumCleanedTiles())
-print(room.isTileCleaned(0,0))
-print(room.tiles)
-#pos = Position(2.5, 3.14)
+print(f"{room}")
+# print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
+# print("Before", room.getNumCleanedTiles())
+# print(room.isTileCleaned(0,0))
+# room.cleanTileAtPosition(Position(0,0))
+# print("After", room.getNumCleanedTiles())
+# print(room.isTileCleaned(0,0))
+# print(room.tiles)
+# pos = Position(2.5, 3.14)
 pos = Position(1, 1)
-print("Pos. in room:", room.isPositionInRoom(Position(3,2)))
-#(x,y) = pos
-print(str(pos), int(pos.getX()), int(pos.getY()))
+print(f"{pos}")
+# print("Pos. in room:", room.isPositionInRoom(Position(3,2)))
+# (x,y) = pos
+# print(str(pos), int(pos.getX()), int(pos.getY()))
 
 # === Problem 2
 class Robot(object):
@@ -176,7 +178,8 @@ class Robot(object):
         room:  a RectangularRoom object.
         speed: a float (speed > 0)
         """
-        raise NotImplementedError
+        self.room = room
+        self.speed = 1
 
     def getRobotPosition(self):
         """
@@ -239,7 +242,9 @@ class StandardRobot(Robot):
         """
         raise NotImplementedError
 
-
+# Build-Debug
+Walter = Robot(StandardRobot(room, 1), 1)
+print(f"{Walter}")
 # Uncomment this line to see your implementation of StandardRobot in action!
 ##testRobotMovement(StandardRobot, RectangularRoom)
 
