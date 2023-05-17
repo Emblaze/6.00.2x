@@ -128,7 +128,9 @@ class RectangularRoom(object):
 
         returns: a Position object.
         """
-        return random.choice(list(self.tiles.keys()))
+        x = random.random() * self.width
+        y = random.random() * self.height
+        return Position(x,y)
 
     def isPositionInRoom(self, pos):
         """
@@ -137,20 +139,20 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if pos is in the room, False otherwise.
         """
-        return pos in self.tiles
+        return 0 <= pos.getX() < self.width and 0 <= pos.getY() < self.height
 
 # Build-Debug
 room = RectangularRoom(2,3)
 print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
 print("Before", room.getNumCleanedTiles())
 print(room.isTileCleaned(0,0))
-room.cleanTileAtPosition((0,0))
+room.cleanTileAtPosition(Position(0,0))
 print("After", room.getNumCleanedTiles())
 print(room.isTileCleaned(0,0))
 print(room.tiles)
 #pos = Position(2.5, 3.14)
 pos = Position(1, 1)
-print("Pos. in room:", room.isPositionInRoom((pos.getX(), pos.getY())))
+print("Pos. in room:", room.isPositionInRoom(Position(3,2)))
 #(x,y) = pos
 print(str(pos), int(pos.getX()), int(pos.getY()))
 
