@@ -79,8 +79,7 @@ class RectangularRoom(object):
         """
         self.width = width
         self.height = height
-        # Initialising a default tiles dict, with
-        # tuples representing the origin coordinates of each tile as keys and a default value for cleaned set to False
+        # Initialising a default tiles dict, with tuples representing the origin coordinates of each tile as keys and a default value for cleaned set to False
         self.tiles = {(x,y): bool() for x in range(width) for y in range(height)}
 
     def cleanTileAtPosition(self, pos):
@@ -91,7 +90,9 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        self.tiles[pos] = True
+        self.x = pos.getX()
+        self.y = pos.getY()
+        self.tiles[(int(self.x), int(self.y))] = True
 
     def isTileCleaned(self, m, n):
         """
@@ -127,7 +128,7 @@ class RectangularRoom(object):
 
         returns: a Position object.
         """
-        raise NotImplementedError
+        return random.choice(list(self.tiles.keys()))
 
     def isPositionInRoom(self, pos):
         """
@@ -136,7 +137,7 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if pos is in the room, False otherwise.
         """
-        raise NotImplementedError
+        return pos in self.tiles
 
 # Build-Debug
 room = RectangularRoom(2,3)
@@ -147,10 +148,9 @@ room.cleanTileAtPosition((0,0))
 print("After", room.getNumCleanedTiles())
 print(room.isTileCleaned(0,0))
 print(room.tiles)
-pos = Position(2.5, 3.14)
-
-
-
+#pos = Position(2.5, 3.14)
+pos = Position(1, 1)
+print("Pos. in room:", room.isPositionInRoom((pos.getX(), pos.getY())))
 #(x,y) = pos
 print(str(pos), int(pos.getX()), int(pos.getY()))
 
