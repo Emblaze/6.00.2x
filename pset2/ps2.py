@@ -142,8 +142,8 @@ class RectangularRoom(object):
         return 0 <= pos.getX() < self.width and 0 <= pos.getY() < self.height
 
 # Build-Debug
-room = RectangularRoom(2,3)
-print(f"{room}")
+# room = RectangularRoom(5,5)
+# print(f"{room}")
 # print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
 # print("Before", room.getNumCleanedTiles())
 # print(room.isTileCleaned(0,0))
@@ -152,8 +152,8 @@ print(f"{room}")
 # print(room.isTileCleaned(0,0))
 # print(room.tiles)
 # pos = Position(2.5, 3.14)
-pos = Position(1, 1)
-print(f"{pos}")
+# pos = Position(1, 1)
+# print(f"{pos}")
 # print("Pos. in room:", room.isPositionInRoom(Position(3,2)))
 # (x,y) = pos
 # print(str(pos), int(pos.getX()), int(pos.getY()))
@@ -179,7 +179,10 @@ class Robot(object):
         speed: a float (speed > 0)
         """
         self.room = room
-        self.speed = 1
+        self.speed = speed
+        self.position = room.getRandomPosition()
+        self.direction = random.randint(0, 359)
+        self.room.cleanTileAtPosition(self.position)
 
     def getRobotPosition(self):
         """
@@ -187,7 +190,7 @@ class Robot(object):
 
         returns: a Position object giving the robot's position.
         """
-        raise NotImplementedError
+        return self.position
 
     def getRobotDirection(self):
         """
@@ -196,7 +199,7 @@ class Robot(object):
         returns: an integer d giving the direction of the robot as an angle in
         degrees, 0 <= d < 360.
         """
-        raise NotImplementedError
+        return self.direction
 
     def setRobotPosition(self, position):
         """
@@ -204,7 +207,7 @@ class Robot(object):
 
         position: a Position object.
         """
-        raise NotImplementedError
+        self.setRobotPosition = Position(position)
 
     def setRobotDirection(self, direction):
         """
@@ -212,7 +215,7 @@ class Robot(object):
 
         direction: integer representing an angle in degrees
         """
-        raise NotImplementedError
+        self.setRobotDirection = direction
 
     def updatePositionAndClean(self):
         """
@@ -243,8 +246,9 @@ class StandardRobot(Robot):
         raise NotImplementedError
 
 # Build-Debug
-Walter = Robot(StandardRobot(room, 1), 1)
-print(f"{Walter}")
+Walter = Robot(RectangularRoom(5,5), 1.0)
+print(f"{Walter.getRobotPosition()}")
+
 # Uncomment this line to see your implementation of StandardRobot in action!
 ##testRobotMovement(StandardRobot, RectangularRoom)
 
