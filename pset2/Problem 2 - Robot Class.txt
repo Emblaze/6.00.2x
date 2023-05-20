@@ -32,3 +32,26 @@ Robot motion rules
 Termination
 
 The simulation ends when a specified fraction of the tiles in the room have been cleaned.
+
+--
+
+Grader output
+
+Test: 4 test setRobotPosition
+
+        robot = Robot(RectangularRoom(5,8), 1.0)
+        robot.getRobotPosition()
+        loop 5 times: 
+            * Generate random x, y values
+            * Check if Position(x,y) is in the room
+                * If so, robot.setRobotPosition(Position(x, y))
+                * robot.getRobotPosition()
+
+Test: 5 test setRobotDirection
+
+        robot = Robot(RectangularRoom(5,8), 1.0)
+        robot.getRobotDirection()
+        loop 10 times: 
+            * Generate random direction value
+            * robot.setRobotDirection(randDirection)
+            * robot.getRobotDirection()

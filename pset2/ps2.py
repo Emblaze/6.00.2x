@@ -141,22 +141,6 @@ class RectangularRoom(object):
         """
         return 0 <= pos.getX() < self.width and 0 <= pos.getY() < self.height
 
-# Build-Debug
-# room = RectangularRoom(5,5)
-# print(f"{room}")
-# print("Room has", f"{room.getNumTiles()} "  + 'tiles:', room.tiles)
-# print("Before", room.getNumCleanedTiles())
-# print(room.isTileCleaned(0,0))
-# room.cleanTileAtPosition(Position(0,0))
-# print("After", room.getNumCleanedTiles())
-# print(room.isTileCleaned(0,0))
-# print(room.tiles)
-# pos = Position(2.5, 3.14)
-# pos = Position(1, 1)
-# print(f"{pos}")
-# print("Pos. in room:", room.isPositionInRoom(Position(3,2)))
-# (x,y) = pos
-# print(str(pos), int(pos.getX()), int(pos.getY()))
 
 # === Problem 2
 class Robot(object):
@@ -207,7 +191,9 @@ class Robot(object):
 
         position: a Position object.
         """
-        self.setRobotPosition = Position(position)
+        #print("Debug:", str(position), position.getX(), position.getY(), type(position))
+        #self.position = position.getX(), position.getY()
+        self.position = str(position)
 
     def setRobotDirection(self, direction):
         """
@@ -215,7 +201,7 @@ class Robot(object):
 
         direction: integer representing an angle in degrees
         """
-        self.setRobotDirection = direction
+        self.direction = str(direction)
 
     def updatePositionAndClean(self):
         """
@@ -245,14 +231,33 @@ class StandardRobot(Robot):
         """
         raise NotImplementedError
 
-# Build-Debug
-Walter = Robot(RectangularRoom(5,5), 1.0)
-print(f"{Walter.getRobotPosition()}")
 
 # Uncomment this line to see your implementation of StandardRobot in action!
 ##testRobotMovement(StandardRobot, RectangularRoom)
 
-
+# Build-Debug
+# random.seed(0)
+whiteRoom = RectangularRoom(5, 5)
+print(f"{whiteRoom}", "is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom))
+print("Room has", f"{whiteRoom.getNumTiles()} "  + 'tiles:', whiteRoom.tiles)
+print("Clean tiles:", whiteRoom.getNumCleanedTiles())
+Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
+print(f"{Walter}", "is an instance of Robot:", isinstance(Walter, Robot))
+print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°')
+position = Position(1, 2)
+print(f"{position}", type(position), isinstance(position, Position))
+Walter.setRobotPosition(position)
+direction = random.randint(0, 359)
+Walter.setRobotDirection(direction)
+print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°')
+# print(whiteroom.isTileCleaned(0,0))
+# whiteroom.cleanTileAtPosition(Position(0,0))
+# print("After", whiteroom.getNumCleanedTiles())
+# print(whiteroom.isTileCleaned(0,0))
+# print(f"{pos}")
+# print("Pos. in room:", whiteRoom.isPositionInRoom(Position(3,2)))
+# (x,y) = position
+# print(str(position), int(pos.getX()), int(pos.getY()))
 # === Problem 4
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
