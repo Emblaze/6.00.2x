@@ -243,6 +243,7 @@ print("Room has", f"{whiteRoom.getNumTiles()} "  + 'tiles:', whiteRoom.tiles)
 print("Clean tiles:", whiteRoom.getNumCleanedTiles())
 Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
 print(f"{Walter}", "is an instance of Robot:", isinstance(Walter, Robot))
+print("Clean tiles:", whiteRoom.getNumCleanedTiles())
 print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°')
 position = Position(1, 2)
 print(f"{position}", type(position), isinstance(position, Position))
@@ -250,14 +251,15 @@ Walter.setRobotPosition(position)
 direction = random.randint(0, 359)
 Walter.setRobotDirection(direction)
 print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°')
-# print(whiteroom.isTileCleaned(0,0))
-# whiteroom.cleanTileAtPosition(Position(0,0))
-# print("After", whiteroom.getNumCleanedTiles())
-# print(whiteroom.isTileCleaned(0,0))
+print("Tile is clean:", whiteRoom.isTileCleaned(1,2))
+whiteRoom.cleanTileAtPosition(Position(1,2))
+print("Clean tiles:", whiteRoom.getNumCleanedTiles())
+print("Tile is clean:", whiteRoom.isTileCleaned(1,2))
 # print(f"{pos}")
 # print("Pos. in room:", whiteRoom.isPositionInRoom(Position(3,2)))
 # (x,y) = position
 # print(str(position), int(pos.getX()), int(pos.getY()))
+
 # === Problem 4
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
