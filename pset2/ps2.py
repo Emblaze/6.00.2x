@@ -229,36 +229,44 @@ class StandardRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
-
-
-# Uncomment this line to see your implementation of StandardRobot in action!
-##testRobotMovement(StandardRobot, RectangularRoom)
+        if self.room.isPositionInRoom(self.position):
+            if not self.room.isTileCleaned(str(position)):
+                room.isTileCleaned(str(position))
+        self.position.getNewPosition(angle, speed)
 
 # Build-Debug
 # random.seed(0)
 whiteRoom = RectangularRoom(5, 5)
-print(f"{whiteRoom}", "is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom))
-print("Room has", f"{whiteRoom.getNumTiles()} "  + 'tiles:', whiteRoom.tiles)
+cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
+print("Room is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom), end = ". ")
+print("# of tiles=", f"{whiteRoom.getNumTiles()}", end = ". ")
 print("Clean tiles:", whiteRoom.getNumCleanedTiles())
 Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
-print(f"{Walter}", "is an instance of Robot:", isinstance(Walter, Robot))
-print("Clean tiles:", whiteRoom.getNumCleanedTiles())
-print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°')
-position = Position(1, 2)
-print(f"{position}", type(position), isinstance(position, Position))
+print("Robot is an instance of Robot:", isinstance(Walter, Robot), end = ". ")
+print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
+print("# of clean tiles:", whiteRoom.getNumCleanedTiles())
+# position = Position(1, 2)
+position = whiteRoom.getRandomPosition()
+print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
 Walter.setRobotPosition(position)
 direction = random.randint(0, 359)
 Walter.setRobotDirection(direction)
-print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°')
-print("Tile is clean:", whiteRoom.isTileCleaned(1,2))
-whiteRoom.cleanTileAtPosition(Position(1,2))
-print("Clean tiles:", whiteRoom.getNumCleanedTiles())
-print("Tile is clean:", whiteRoom.isTileCleaned(1,2))
-# print(f"{pos}")
-# print("Pos. in room:", whiteRoom.isPositionInRoom(Position(3,2)))
-# (x,y) = position
-# print(str(position), int(pos.getX()), int(pos.getY()))
+print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
+print("Tile is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
+whiteRoom.cleanTileAtPosition(position)
+print("Tile", f"{position}", "is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
+cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
+print("Clean tiles:", whiteRoom.getNumCleanedTiles(), cleanedTiles)
+position =  position.getNewPosition(direction, 1)
+print("Position:", f"{position}", "is in the room:", whiteRoom.isPositionInRoom(position))
+print(vars(position))
+# print(vars(Walter))
+# print(vars(whiteRoom))
+# print(str(position), int(position.getX()), int(position.getY()))
+
+# Uncomment this line to see your implementation of StandardRobot in action!
+##testRobotMovement(StandardRobot, RectangularRoom)
+
 
 # === Problem 4
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
