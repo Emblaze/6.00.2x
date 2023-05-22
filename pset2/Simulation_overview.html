@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problem set 2 - Simulation overview</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="problem-set-2---simulation-overview">Problem set 2 - Simulation Overview</h1>
+<h2 id="simulation-overview">Simulation Overview</h2>
+<p>iRobot is a company (started by MIT alumni and faculty) that sells the <a href="http://store.irobot.com/">Roomba vacuuming robot</a> (watch one of the product videos to see these robots in action). Roomba robots move around the floor, cleaning the area they pass over.</p>
+<p>In this problem set, you will code a simulation to compare how much time a group of Roomba-like robots will take to clean the floor of a room using two different strategies.</p>
+<p>The following simplified model of a single robot moving in a square 5x5 room should give you some intuition about the system we are simulating.</p>
+<p>The robot starts out at some random position in the room, and with a random direction of motion. The illustrations below show the robot’s position (indicated by a black dot) as well as its direction (indicated by the direction of the red arrowhead).</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="media/files_ps07_files_screen1.png" alt="Example screen 1"></td>
+<td><img src="media/files_ps07_files_screen2.png" alt="Example screen 2"></td>
+<td><img src="media/files_ps07_files_screen3.png" alt="Example screen 3"></td>
+</tr>
+<tr>
+<td>Time t = 0</td>
+<td>t = 1</td>
+<td>t = 2</td>
+</tr>
+<tr>
+<td>The robot starts at the position (2.1, 2.2) with an angle of 205 degrees (measured clockwise from “north”). The tile that it is on is now clean.</td>
+<td>The robot has moved 1 unit in the direction it was facing, to the position (1.7, 1.3), cleaning another tile.</td>
+<td>The robot has moved 1 unit in the same direction (205 degrees from north), to the position (1.2, 0.4), cleaning another tile.</td>
+</tr>
+<tr>
+<td><img src="media/files_ps07_files_screen4.png" alt="Example screen 4"></td>
+<td><img src="media/files_ps07_files_screen5.png" alt="Example screen 5"></td>
+<td></td>
+</tr>
+<tr>
+<td>t = 3</td>
+<td>t = 4</td>
+<td></td>
+</tr>
+<tr>
+<td>The robot could not have moved another unit in the same direction without hitting the wall, so instead it turns to face in a new, random direction, 287 degrees.</td>
+<td>The robot moves along its new direction to the position (0.3, 0.7), cleaning another tile.</td>
+<td></td>
+</tr>
+</tbody>
+</table><h2 id="simulation-details">Simulation Details</h2>
+<p>Here are additional details about the simulation model. Read these carefully.</p>
+<ul>
+<li>
+<h3 id="multiple-robots">Multiple robots</h3>
+<ul>
+<li>In general, there are N &gt; 0 robots in the room, where N is given. For simplicity, assume that robots are points and can pass through each other or occupy the same point without interfering.</li>
+</ul>
+</li>
+<li>
+<h3 id="the-room">The room</h3>
+<ul>
+<li>The room is rectangular with some integer width w and height h, which are given. Initially the entire floor is dirty. A robot cannot pass through the walls of the room. A robot may not move to a point outside the room.</li>
+</ul>
+</li>
+<li>
+<h3 id="tiles">Tiles</h3>
+<ul>
+<li>You will need to keep track of which parts of the floor have been cleaned by the robot(s). We will divide the area of the room into 1x1 tiles (there will be w * h such tiles). When a robot’s location is anywhere in a tile, we will consider the entire tile to be cleaned (as in the pictures above). By convention, we will refer to the tiles using ordered pairs of integers: (0, 0), (0, 1), …, (0, h-1), (1, 0), (1, 1), …, (w-1, h-1).</li>
+</ul>
+</li>
+<li>
+<h3 id="robot-motion-rules">Robot motion rules</h3>
+<ul>
+<li>
+<p>Each robot has a position inside the room. We’ll represent the position using coordinates (x, y) which are floats satisfying 0 ≤ x &lt; w and 0 ≤ y &lt; h. In our program we’ll use instances of the Position class to store these coordinates.</p>
+</li>
+<li>
+<p>A robot has a direction of motion. We’ll represent the direction using an integer d satisfying 0 ≤ d &lt; 360, which gives an angle in degrees.</p>
+</li>
+<li>
+<p>All robots move at the same speed s, a float, which is given and is constant throughout the simulation. Every time-step, a robot moves in its direction of motion by s units.</p>
+</li>
+<li>
+<p>If a robot detects that it will hit the wall within the time-step, that time step is instead spent picking a new direction at random. The robot will attempt to move in that direction on the next time step, until it reaches another wall.</p>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="termination">Termination</h3>
+<ul>
+<li>The simulation ends when a specified fraction of the tiles in the room have been cleaned.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
+</blockquote>
+</div>
+</body>
+
+</html>
