@@ -229,43 +229,59 @@ class StandardRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        if self.room.isPositionInRoom(self.position):
-            if not self.room.isTileCleaned(str(position)):
-                room.isTileCleaned(str(position))
-        self.position.getNewPosition(angle, speed)
+        self.position = self.position.getNewPosition(angle=self.direction, speed=1.0)
+        # while any(value is False for value in self.room.tiles.values()):
+        # while self.room.getNumCleanedTiles() < self.room.getNumTiles():
+        if not self.room.isPositionInRoom(self.position):
+            self.position = self.room.getRandomPosition()
+            self.direction = random.randint(0, 359)
+            # TODO: "Double check" if tiles is already the clean tiles dict
+        # print("Position is in the room.")
+        # if self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
+        self.room.cleanTileAtPosition(self.position)
+        # else:
+            # print("Tile already", f"{self.position}", "cleaned.")
+        #         if not self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
+        #             self.room.cleanTileAtPosition(int(self.position.x), int(self.position.y))
+        #     if self.room.isPositionInRoom(self.position):
+        #         if not self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
+        #             self.room.cleanTileAtPosition(int(self.position.x), int(self.position.y))
+        #         self.position.getNewPosition(self.direction, 1.0)
+        #     print(self.room.getNumCleanedTiles(), self.room.getNumTiles())
+            
 
 # Build-Debug
 # random.seed(0)
-whiteRoom = RectangularRoom(5, 5)
-cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
-print("Room is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom), end = ". ")
-print("# of tiles=", f"{whiteRoom.getNumTiles()}", end = ". ")
-print("Clean tiles:", whiteRoom.getNumCleanedTiles())
-Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
-print("Robot is an instance of Robot:", isinstance(Walter, Robot), end = ". ")
-print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
-print("# of clean tiles:", whiteRoom.getNumCleanedTiles())
-# position = Position(1, 2)
-position = whiteRoom.getRandomPosition()
-print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
-Walter.setRobotPosition(position)
-direction = random.randint(0, 359)
-Walter.setRobotDirection(direction)
-print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
-print("Tile is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
-whiteRoom.cleanTileAtPosition(position)
-print("Tile", f"{position}", "is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
-cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
-print("Clean tiles:", whiteRoom.getNumCleanedTiles(), cleanedTiles)
-position =  position.getNewPosition(direction, 1)
-print("Position:", f"{position}", "is in the room:", whiteRoom.isPositionInRoom(position))
-print(vars(position))
+# whiteRoom = RectangularRoom(5, 5)
+# cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
+# print("Room is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom), end = ". ")
+# print("# of tiles:", f"{whiteRoom.getNumTiles()}", end = ". ")
+# print("Clean tiles:", whiteRoom.getNumCleanedTiles())
+# Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
+# print("Robot is an instance of Robot:", isinstance(Walter, Robot), end = ". ")
+# print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
+# print("# of clean tiles:", whiteRoom.getNumCleanedTiles())
+# # position = Position(1, 2)
+# position = whiteRoom.getRandomPosition()
+# print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
+# Walter.setRobotPosition(position)
+# direction = random.randint(0, 359)
+# Walter.setRobotDirection(direction)
+# print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
+# print("Tile is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
+# whiteRoom.cleanTileAtPosition(position)
+# print("Tile", f"{position}", "is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
+# cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
+# print("Clean tiles:", whiteRoom.getNumCleanedTiles(), cleanedTiles)
+# position =  position.getNewPosition(direction, 1)
+# print("Position:", f"{position}", "is in the room:", whiteRoom.isPositionInRoom(position))
+# print("Position variables:", vars(position))
 # print(vars(Walter))
 # print(vars(whiteRoom))
 # print(str(position), int(position.getX()), int(position.getY()))
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-##testRobotMovement(StandardRobot, RectangularRoom)
+testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
