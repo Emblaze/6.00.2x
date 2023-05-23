@@ -230,24 +230,10 @@ class StandardRobot(Robot):
         been cleaned.
         """
         self.position = self.position.getNewPosition(angle=self.direction, speed=1.0)
-        # while any(value is False for value in self.room.tiles.values()):
-        # while self.room.getNumCleanedTiles() < self.room.getNumTiles():
         if not self.room.isPositionInRoom(self.position):
             self.position = self.room.getRandomPosition()
             self.direction = random.randint(0, 359)
-            # TODO: "Double check" if tiles is already the clean tiles dict
-        # print("Position is in the room.")
-        # if self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
         self.room.cleanTileAtPosition(self.position)
-        # else:
-            # print("Tile already", f"{self.position}", "cleaned.")
-        #         if not self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
-        #             self.room.cleanTileAtPosition(int(self.position.x), int(self.position.y))
-        #     if self.room.isPositionInRoom(self.position):
-        #         if not self.room.isTileCleaned(int(self.position.x), int(self.position.y)):
-        #             self.room.cleanTileAtPosition(int(self.position.x), int(self.position.y))
-        #         self.position.getNewPosition(self.direction, 1.0)
-        #     print(self.room.getNumCleanedTiles(), self.room.getNumTiles())
             
 
 # Build-Debug
@@ -261,7 +247,6 @@ class StandardRobot(Robot):
 # print("Robot is an instance of Robot:", isinstance(Walter, Robot), end = ". ")
 # print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
 # print("# of clean tiles:", whiteRoom.getNumCleanedTiles())
-# # position = Position(1, 2)
 # position = whiteRoom.getRandomPosition()
 # print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
 # Walter.setRobotPosition(position)
@@ -278,7 +263,6 @@ class StandardRobot(Robot):
 # print("Position variables:", vars(position))
 # print(vars(Walter))
 # print(vars(whiteRoom))
-# print(str(position), int(position.getX()), int(position.getY()))
 
 # Uncomment this line to see your implementation of StandardRobot in action!
 testRobotMovement(StandardRobot, RectangularRoom)
