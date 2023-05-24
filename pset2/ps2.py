@@ -229,15 +229,63 @@ class StandardRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        self.position = self.position.getNewPosition(angle=self.direction, speed=1.0)
-        if not self.room.isPositionInRoom(self.position):
-            self.position = self.room.getRandomPosition()
+        # Get a new position with the same direction
+        self.next_position = self.position.getNewPosition(angle=self.direction, speed=1.0)
+        # Check if next position would be in the room
+        valid_next_position = bool(self.room.isPositionInRoom(self.next_position))
+        if valid_next_position == False:
+            # Get a new direction
             self.direction = random.randint(0, 359)
+            # Recheck if new position is in the room
+            valid_next_position
+        else:
+            # Next position is in the room, let's move to it
+            self.position = self.next_position
+        # Clean tile at new position
         self.room.cleanTileAtPosition(self.position)
             
 
+# Uncomment this line to see your implementation of StandardRobot in action!
+testRobotMovement(StandardRobot, RectangularRoom)
+
+
+# === Problem 4
+def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
+                  robot_type):
+    """
+    Runs NUM_TRIALS trials of the simulation and returns the mean number of
+    time-steps needed to clean the fraction MIN_COVERAGE of the room.
+
+    The simulation is run with NUM_ROBOTS robots of type ROBOT_TYPE, each with
+    speed SPEED, in a room of dimensions WIDTH x HEIGHT.
+
+    num_robots: an int (num_robots > 0)
+    speed: a float (speed > 0)
+    width: an int (width > 0)
+    height: an int (height > 0)
+    min_coverage: a float (0 <= min_coverage <= 1.0)
+    num_trials: an int (num_trials > 0)
+    robot_type: class of robot to be instantiated (e.g. StandardRobot or RandomWalkRobot)
+    """
+    # Run 1 simulation
+    def runOneSimulation():
+      # Create an instance of a room  
+      room = RectangularRoom(width, height)
+      # Create an instance of a robot of robot_type with initial random position and direction
+      robot = robot_type(room, room.getRandomPosition())
+      # Get these initials values
+      robot.getRobotPosition()
+      robot.getRobotDirection()
+
+    num_robots = num_robots
+    
+    0 <= min_coverage <= 1.0
+    num_trials = num_trials
+    robot_type = StandardRobot
+    
+
 # Build-Debug
-# random.seed(0)
+random.seed(0)
 # whiteRoom = RectangularRoom(5, 5)
 # cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
 # print("Room is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom), end = ". ")
@@ -264,33 +312,8 @@ class StandardRobot(Robot):
 # print(vars(Walter))
 # print(vars(whiteRoom))
 
-# Uncomment this line to see your implementation of StandardRobot in action!
-testRobotMovement(StandardRobot, RectangularRoom)
-
-
-# === Problem 4
-def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
-                  robot_type):
-    """
-    Runs NUM_TRIALS trials of the simulation and returns the mean number of
-    time-steps needed to clean the fraction MIN_COVERAGE of the room.
-
-    The simulation is run with NUM_ROBOTS robots of type ROBOT_TYPE, each with
-    speed SPEED, in a room of dimensions WIDTH x HEIGHT.
-
-    num_robots: an int (num_robots > 0)
-    speed: a float (speed > 0)
-    width: an int (width > 0)
-    height: an int (height > 0)
-    min_coverage: a float (0 <= min_coverage <= 1.0)
-    num_trials: an int (num_trials > 0)
-    robot_type: class of robot to be instantiated (e.g. StandardRobot or
-                RandomWalkRobot)
-    """
-    raise NotImplementedError
-
 # Uncomment this line to see how much your simulation takes on average
-##print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+# print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
 
 
 # === Problem 5
@@ -306,6 +329,7 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
+        # self.position = self.room.getRandomPosition() # This should be implemented in the RandomWalkRobot
         raise NotImplementedError
 
 
