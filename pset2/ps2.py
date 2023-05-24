@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # 6.00.2x Problem Set 2: Simulating robots
 
 import math
@@ -233,17 +234,17 @@ class StandardRobot(Robot):
         self.next_position = self.position.getNewPosition(angle=self.direction, speed=1.0)
         # Check if next position would be in the room
         valid_next_position = bool(self.room.isPositionInRoom(self.next_position))
-        if valid_next_position == False:
+        while valid_next_position == False:
             # Get a new direction
             self.direction = random.randint(0, 359)
             # Recheck if new position is in the room
-            valid_next_position
+            return valid_next_position
         else:
             # Next position is in the room, let's move to it
             self.position = self.next_position
         # Clean tile at new position
         self.room.cleanTileAtPosition(self.position)
-            
+
 
 # Uncomment this line to see your implementation of StandardRobot in action!
 testRobotMovement(StandardRobot, RectangularRoom)
@@ -269,7 +270,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     """
     # Run 1 simulation
     def runOneSimulation():
-      # Create an instance of a room  
+      # Create an instance of a room
       room = RectangularRoom(width, height)
       # Create an instance of a robot of robot_type with initial random position and direction
       robot = robot_type(room, room.getRandomPosition())
@@ -278,11 +279,8 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
       robot.getRobotDirection()
 
     num_robots = num_robots
-    
-    0 <= min_coverage <= 1.0
-    num_trials = num_trials
     robot_type = StandardRobot
-    
+
 
 # Build-Debug
 random.seed(0)
