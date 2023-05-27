@@ -242,12 +242,14 @@ class StandardRobot(Robot):
         else:
             # Next position is in the room, let's move to it
             self.position = self.next_position
+        # Debug check to determine whether a tile has already been cleaned.
+        print("Tile", ((int(self.position.x)), (int(self.position.y))), "already cleaned:", bool(self.room.isTileCleaned((int(self.position.x)), (int(self.position.y)))))
         # Clean tile at new position
         self.room.cleanTileAtPosition(self.position)
 
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
@@ -268,50 +270,79 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     num_trials: an int (num_trials > 0)
     robot_type: class of robot to be instantiated (e.g. StandardRobot or RandomWalkRobot)
     """
-    # Run 1 simulation
-    def runOneSimulation():
-      # Create an instance of a room
-      room = RectangularRoom(width, height)
-      # Create an instance of a robot of robot_type with initial random position and direction
-      robot = robot_type(room, room.getRandomPosition())
-      # Get these initials values
-      robot.getRobotPosition()
-      robot.getRobotDirection()
+    for trial in range(num_trials):
+        print(end="________\n")   
+        print("Trial #:", trial+1)
+        print(end="________\n")    
+        num_robots = 1
+        
+        # Create an instance of a room
+        room = RectangularRoom(width, height)
+        print("Room is an instance of RectangularRoom:", isinstance(room, RectangularRoom), end = ". ")
+        print("# of tiles:", f"{room.getNumTiles()}", end = ". ")
+        # Create an instance of a robot of robot_type with initial random position and direction
+        robot = robot_type(room, speed)
+        print("Robot is an instance of Robot:", isinstance(robot, Robot), end = ". ")
+        position = robot.getRobotPosition()
+        direction = robot.getRobotDirection()
+        print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
+        print("Initial position:", f"{position}", "| Heading:", f"{direction}" + '°')
+        counter = 0
+        stepList = []
+        #runOneTrial()
 
-    num_robots = num_robots
-    robot_type = StandardRobot
+        # Run 1 simulation
+        def runOneTrial(ratio = 0):
+            # Build a list of cleaned tiles
+            cleanedTiles = [tile for tile,state in room.tiles.items() if state == True]
+            ratio = room.getNumCleanedTiles() / room.getNumTiles()
+           
+            # Move to next position
+            robot.updatePositionAndClean()
+            print("Position now set to", robot.getRobotPosition(), "| Heading:", f"{robot.getRobotDirection()}" + '°', end = ". ")
+        
+            print("Clean tiles:", room.getNumCleanedTiles(), cleanedTiles)
 
+            cleanedTiles = [tile for tile,state in room.tiles.items() if state == True]
+
+            print("Ratio:", round(ratio,2), "Steps:", counter, end=". ")
+            print("Ratio < min_coverage:", bool(ratio<min_coverage), end="\n")
+            return ratio
+        
+        
+        while runOneTrial() < min_coverage:
+            runOneTrial()
+            counter += 1
+
+        print("Appending", f"{counter}", "steps", type(counter))
+        stepList.append(counter,)
+         
+    
+    print("________")
+    print("Results:")
+    print("Steps:", stepList, type(stepList), end= "\n",)
+    mean = sum(stepList)/ len(stepList)
+    print("Mean:", round(mean, 2))
+    return round(mean, 2)
+                   
 
 # Build-Debug
-random.seed(0)
-# whiteRoom = RectangularRoom(5, 5)
-# cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
-# print("Room is an instance of RectangularRoom:", isinstance(whiteRoom, RectangularRoom), end = ". ")
-# print("# of tiles:", f"{whiteRoom.getNumTiles()}", end = ". ")
-# print("Clean tiles:", whiteRoom.getNumCleanedTiles())
-# Walter = Robot(whiteRoom, whiteRoom.getRandomPosition())
-# print("Robot is an instance of Robot:", isinstance(Walter, Robot), end = ". ")
-# print("Initial position:", f"{Walter.getRobotPosition()}", "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
-# print("# of clean tiles:", whiteRoom.getNumCleanedTiles())
-# position = whiteRoom.getRandomPosition()
-# print(f"{position}", "is an instance of Position:", isinstance(position, Position), vars(position))
-# Walter.setRobotPosition(position)
+# random.seed(0)
+# robot.setRobotPosition(position)
 # direction = random.randint(0, 359)
-# Walter.setRobotDirection(direction)
-# print("Position now set to", Walter.getRobotPosition(), "| Heading:", f"{Walter.getRobotDirection()}" + '°', end = ". ")
-# print("Tile is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
-# whiteRoom.cleanTileAtPosition(position)
-# print("Tile", f"{position}", "is clean:", whiteRoom.isTileCleaned(int(position.x), int(position.y)))
-# cleanedTiles = [tile for tile,state in whiteRoom.tiles.items() if state == True]
-# print("Clean tiles:", whiteRoom.getNumCleanedTiles(), cleanedTiles)
+# robot.setRobotDirection(direction)
+# print("Position now set to", robot.getRobotPosition(), "| Heading:", f"{robot.getRobotDirection()}" + '°', end = ". ")
+# print("Tile is clean:", room.isTileCleaned(int(position.x), int(position.y)))
+# room.cleanTileAtPosition(position)
+# print("Tile", f"{position}", "is clean:", room.isTileCleaned(int(position.x), int(position.y)))
 # position =  position.getNewPosition(direction, 1)
-# print("Position:", f"{position}", "is in the room:", whiteRoom.isPositionInRoom(position))
+# print("Position:", f"{position}", "is in the room:", room.isPositionInRoom(position))
 # print("Position variables:", vars(position))
-# print(vars(Walter))
-# print(vars(whiteRoom))
+# print(vars(robot))
+# print(vars(room))
 
 # Uncomment this line to see how much your simulation takes on average
-# print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+print(runSimulation(1, 1.0, 5, 5, 0.75, 3, StandardRobot))
 
 
 # === Problem 5
