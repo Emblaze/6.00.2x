@@ -323,7 +323,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 # random.seed(0)
 
 # Uncomment this line to see how much your simulation takes on average
-print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+# print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
 
 
 # === Problem 5
@@ -339,9 +339,27 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        self.direction = random.randint(0, 359)
-        self.robot.setRobotDirection(self.direction)
+        # Get a new position with a new direction
+        self.next_direction = random.randint(0, 359)
+        self.next_position = self.position.getNewPosition(angle=self.next_direction, speed=1.0)
+        # Check if next position would be in the room
+        valid_next_position = bool(self.room.isPositionInRoom(self.next_position))
+        while valid_next_position == False:
+            # Get a new direction
+            self.next_direction
+            # Recheck if new position is in the room
+            return valid_next_position
+        else:
+            # Next position is in the room, let's move to it
+            self.position = self.next_position
+            self.direction = self.next_direction
+        # Debug check to determine whether a tile has already been cleaned.
+        # print("Tile", ((int(self.position.x)), (int(self.position.y))), "already cleaned:", bool(self.room.isTileCleaned((int(self.position.x)), (int(self.position.y)))))
+        # Clean tile at new position
+        self.room.cleanTileAtPosition(self.position)
 
+# Uncomment this line to see your implementation of RandomWalkRobot in action!
+testRobotMovement(RandomWalkRobot, RectangularRoom)
 
 def showPlot1(title, x_label, y_label):
     """
