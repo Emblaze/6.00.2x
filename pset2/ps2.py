@@ -194,7 +194,7 @@ class Robot(object):
         """
         #print("Debug:", str(position), position.getX(), position.getY(), type(position))
         #self.position = position.getX(), position.getY()
-        self.position = str(position)
+        self.position = position
 
     def setRobotDirection(self, direction):
         """
@@ -202,7 +202,7 @@ class Robot(object):
 
         direction: integer representing an angle in degrees
         """
-        self.direction = str(direction)
+        self.direction = direction
 
     def updatePositionAndClean(self):
         """
@@ -238,7 +238,9 @@ class StandardRobot(Robot):
             # Get a new direction
             self.direction = random.randint(0, 359)
             # Recheck if new position is in the room
-            return valid_next_position
+            # return valid_next_position
+            self.next_position = self.position.getNewPosition(angle=self.direction, speed=1.0)
+            valid_next_position = bool(self.room.isPositionInRoom(self.next_position))    
         else:
             # Next position is in the room, let's move to it
             self.position = self.next_position
