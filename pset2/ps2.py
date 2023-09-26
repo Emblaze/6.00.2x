@@ -275,10 +275,9 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     num_robots = 1
     stepList = []
     counter = 0
+  
     # Run 1 simulation
-    def runOneTrial():
-        # Create an instance of a robot of robot_type with initial random position and direction
-        robot = robot_type(room, speed)
+    def runOneStep():        
         # print("Robot is an instance of Robot:", isinstance(robot, Robot), end = ". ")
         position = robot.getRobotPosition()
         direction = robot.getRobotDirection()
@@ -292,8 +291,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         # print("Position now set to", robot.getRobotPosition(), "| Heading:", f"{robot.getRobotDirection()}" + '°', end=". ")
         # print("Clean tiles:", room.getNumCleanedTiles(), cleanedTiles)
         cleanedTiles = [tile for tile,state in room.tiles.items() if state == True]
-        nonlocal counter
-        counter += 1
+        
         # print("Ratio:", round(ratio,2),  "< min_coverage:", str(min_coverage), bool(ratio<min_coverage), end="\n")
         # print("Steps:", counter, end=". ")
         return ratio
@@ -301,31 +299,33 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
     for trial in range(num_trials):
         # print(end="________\n")   
-        print("Trial #:", trial+1)
-        # Create an instance of a room
+        # print("Trial #:", trial+1)
+        # Create an instance of an unclean room
         room = RectangularRoom(width, height)
         # print("Room is an instance of RectangularRoom:", isinstance(room, RectangularRoom), end = ". ")
-        # print("# of tiles:", f"{room.getNumTiles()}")  
-        while runOneTrial() < min_coverage:
-            runOneTrial()
-        print("Appending", f"{counter}", "steps")
+        # print("# of tiles:", f"{room.getNumTiles()}")
+        # Create an instance of a robot of robot_type with initial random position and direction
+        robot = robot_type(room, speed)
+        while runOneStep() < min_coverage:
+            runOneStep()
+            counter += 1
+        # print("Appending", f"{counter}", "steps")
         stepList.append(counter)
         # Resetting counter
         counter = 0
         
-    # print("________")
-    # print("Results:")
-    print("Steps per trial:", stepList, len(stepList), "items", end= "\n")
+    
+    print("Steps per trial:", stepList, len(stepList), "trials", end= "\n")
     mean = sum(stepList)/ len(stepList)
     print("Mean:", end= " ")
     return round(mean, 2)
                    
 
 # Build-Debug
-# random.seed(0)
+random.seed(0)
 
 # Uncomment this line to see how much your simulation takes on average
-# print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
 
 
 # === Problem 5
@@ -361,7 +361,7 @@ class RandomWalkRobot(Robot):
         self.room.cleanTileAtPosition(self.position)
 
 # Uncomment this line to see your implementation of RandomWalkRobot in action!
-testRobotMovement(RandomWalkRobot, RectangularRoom)
+#testRobotMovement(RandomWalkRobot, RectangularRoom)
 
 def showPlot1(title, x_label, y_label):
     """
